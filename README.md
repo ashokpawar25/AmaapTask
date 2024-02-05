@@ -10,3 +10,6 @@ we created the different branches .
 
 due to some problem we created the new github repositery from the another account and then started the remaingin concepts .
 
+then we learned how to create and merge the brnches , mean while we saw how to resolve the confilcts. 
+
+session end with the open disccsion and doubt resoluotion.

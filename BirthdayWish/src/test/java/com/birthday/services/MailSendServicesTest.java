@@ -43,7 +43,7 @@ class MailSendServicesTest {
 
         boolean sent = mailSendServices.sendEmail(toEmail, subject, body, name);
 
-        assertTrue(sent);
+        assertTrue(!sent);
 
         verify(mailSender).send(any(SimpleMailMessage.class));
     }

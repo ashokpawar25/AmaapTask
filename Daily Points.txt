@@ -1,0 +1,17 @@
+Date = 22/02/2024
+More About Tdd:
+-Baby Steps--->(Calculator Example)
+1)Any smallest step on which we can write a test case .
+
+-Yagini and Future preparedness===>(Email for Error Example)
+1)Deleting something or put it for future use
+
+-The Law Of Lowest Hangin Fruit
+1)Write the simplest test cases first
+2)Implement obvious test first
+
+Home Work - Write lowest hanging fruit
+Mocks  Stubs  Doubles
+
+TDD Mantra Red=Green=Refactor
+

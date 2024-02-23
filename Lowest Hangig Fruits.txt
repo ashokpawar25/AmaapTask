@@ -1,0 +1,20 @@
+           Lowest Haning Fruits-------->
+
+1. String Calculator
+
+-Split the input string to convert it into number.
+-Get Delimeter to split the string.
+
+2)BirthdayGreet
+
+-Check weather input email contains @ symbol.
+-Check peoples having their birthdays.
+
+3)CQRS(Hotel Booking)
+
+- Creates the rooms to work on it.
+-Show empty rooms to user.
+
+4)FizzBuzz 
+- return empty list if limit is less than zero.
+-Check Basic Operation first(Simple sum).

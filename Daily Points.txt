@@ -1,3 +1,18 @@
+Date = 27/02/2024
+1.Test Doubles
+Fake =Not unit testable but want to do unit testing the do the complete class as fake
+     = when want to send some http calls, mocking masseging service
+stub = instead of faking all the classes we use some inbuilt classes
+     = when using any external library(My Sql Connector)
+     => rearly used due to security issue
+mock = instead of implementation focus on making mock instance of class
+     = when we are working with objects and we want to verify sequence of operations and controll the execution
+     => It is mostly used
+
+benefits of TDD.
+
+
+
 Date = 22/02/2024
 More About Tdd:
 -Baby Steps--->(Calculator Example)

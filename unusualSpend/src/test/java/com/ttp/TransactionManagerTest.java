@@ -2,6 +2,7 @@ package com.ttp;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.UserDataHandler;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -56,7 +57,11 @@ public class TransactionManagerTest {
         transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
         transactionHistory.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
         transactionHistory.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
-        
+        UserHandler userHandler = new UserHandler();
+        userHandler.addUser(new User(1,"Sameer","ashokpawar25052001@gmail.com"));
+        userHandler.addUser(new User(2,"Raju","ashokpawar25052001@gmail.com"));
+
+
         List<ExtraPayUsers> extraPayUsers = transactionHistory.ComparePreviouMonthSpending();
         Assertions.assertEquals(2,extraPayUsers.size());
     }

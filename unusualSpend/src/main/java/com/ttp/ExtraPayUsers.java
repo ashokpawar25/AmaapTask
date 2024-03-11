@@ -12,4 +12,16 @@ public class ExtraPayUsers
         this.category = category;
         this.moreSpentAmount = moreSpentAmount;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getMoreSpentAmount() {
+        return moreSpentAmount;
+    }
 }

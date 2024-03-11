@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 public class TransactionHistory {
     List<Transaction> transactions = new ArrayList<>();
 
+    UserHandler userHandler = new UserHandler();
+    EmailHandler emailHandler = new EmailHandler();
+
     public void addTransaction(Transaction transaction)
     {
         transactions.add(transaction);
@@ -57,6 +60,23 @@ public class TransactionHistory {
                         extraPayUsers.add(new ExtraPayUsers(transaction.getUserId(),transaction.getCategory(),transaction.getAmount()-lmTransaction.getAmount()));
                     }
                 }
+            }
+        }
+
+        for(ExtraPayUsers extraPayUsers1:extraPayUsers)
+        {
+            User existingUser = userHandler.getUserByUserId(extraPayUsers1.userId);
+
+
+            if(existingUser!=null)
+            {
+
+                String body = "Dear "+ existingUser.name + "," +
+                        "You have spent Rupees "+ extraPayUsers1.moreSpentAmount +" on "+ extraPayUsers1.category+"" +
+                        "Thank you credit card company";
+
+                String response = emailHandler.sendEmail("Regarding extra spent", body, existingUser.email);
+                System.out.println(response);
             }
         }
         return extraPayUsers;

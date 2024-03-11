@@ -34,4 +34,31 @@ public class TransactionHistory {
     {
         return transactions.stream().filter((x) -> x.getTransactionDate().getMonth() == LocalDate.now().getMonth()).collect(Collectors.toList());
     }
+
+    public List<Transaction> filterTransactionByPreviousMonth()
+    {
+        return transactions.stream().filter((x) -> x.getTransactionDate().getMonth() == LocalDate.now().minusMonths(1).getMonth()).collect(Collectors.toList());
+
+    }
+
+    public List<ExtraPayUsers> ComparePreviouMonthSpending()
+    {
+        List<Transaction> currentMonthTransactions = filterTransactionByCurrentMonth();
+        List<Transaction> lastMonthTransactions = filterTransactionByPreviousMonth();
+        List<ExtraPayUsers> extraPayUsers = new ArrayList<>();
+        for(Transaction transaction:currentMonthTransactions)
+        {
+            for(Transaction lmTransaction:lastMonthTransactions)
+            {
+                if(transaction.getUserId()==lmTransaction.getUserId() && transaction.getCategory() == lmTransaction.getCategory())
+                {
+                    if(transaction.getAmount()>lmTransaction.getAmount())
+                    {
+                        extraPayUsers.add(new ExtraPayUsers(transaction.getUserId(),transaction.getCategory(),transaction.getAmount()-lmTransaction.getAmount()));
+                    }
+                }
+            }
+        }
+        return extraPayUsers;
+    }
 }

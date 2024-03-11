@@ -34,10 +34,30 @@ public class TransactionManagerTest {
     }
 
     @Test
-    void shouldAbleTofilterTransactionsByCurrentMonth() {
+    void shouldAbleToFilterTransactionsByCurrentMonth() {
         transactionHistory.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 02, 11), 1));
         transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
         List<Transaction> transactions = transactionHistory.filterTransactionByCurrentMonth();
         Assertions.assertEquals(1, transactions.size());
+    }
+
+    @Test
+    void shouldAbleToFilterTransactionByPreviosMonth() {
+        transactionHistory.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 02, 11), 1));
+        transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
+        List<Transaction> transactions = transactionHistory.filterTransactionByPreviousMonth();
+        Assertions.assertEquals(1, transactions.size());
+    }
+
+    @Test
+    void shouldAbleToComapareTransactionOfUser()
+    {
+        transactionHistory.addTransaction(new Transaction(1, "Travel", 100, LocalDate.of(2024, 02, 11), 1));
+        transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
+        transactionHistory.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
+        transactionHistory.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
+        
+        List<ExtraPayUsers> extraPayUsers = transactionHistory.ComparePreviouMonthSpending();
+        Assertions.assertEquals(2,extraPayUsers.size());
     }
 }

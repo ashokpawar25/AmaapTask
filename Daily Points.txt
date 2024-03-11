@@ -1,3 +1,29 @@
+Date = 08/03/2024
+-Task:
+Why functional programming is good than the object oriented programming
+less adoption
+
+-Problems in prcedural programming:
+1.code reusability
+2.Encapsulation
+3.No relationship i.e. bus is vehicle  ---> solved by using interface
+
+Date = 05/03/2024
+Did connection private for security purpose
+returned resultset instead of empty list
+
+
+
+Date = 04/03/2024
+
+Explanation about book inventory system.
+started with lowest hanging fruit i.e 
+refactored code by achiving the abstraction
+SOLID =
+S -> Single Responsibility
+Created the mocks
+
+
 Date = 27/02/2024
 1.Test Doubles
 Fake =Not unit testable but want to do unit testing the do the complete class as fake

@@ -1,14 +1,18 @@
 package com.ttp;
 
+import com.ttp.invalidEmailException.InvalideEmailException;
+import com.ttp.invalideCustomerException.InvalideUserException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserHandler
 {
+    User user = new User();
     static List<User> users = new ArrayList<>();
-    public void addUser(User user)
-    {
-        users.add(user);
+    public void addUser(int userId, String name, String email) throws InvalideUserException, InvalideEmailException {
+        User user = User.create(2, "Raju", "ashokpawar25052001@gmail.com");
+//        users.add(User user);
     }
 
     public User getUserByUserId(int userId1)

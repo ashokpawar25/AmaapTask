@@ -1,5 +1,6 @@
-package com.ttp;
+package com.ttp.transactionManager;
 
+import com.ttp.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.UserDataHandler;
@@ -11,8 +12,7 @@ public class TransactionManagerTest {
 
     TransactionHistory transactionHistory = new TransactionHistory();
     UserHandler userHandler = new UserHandler();
-    TransactionManager transactionManager = new TransactionManager(transactionHistory,userHandler);
-
+    TransactionManager transactionManager = new TransactionManager(transactionHistory, userHandler);
 
 
     @Test
@@ -53,29 +53,27 @@ public class TransactionManagerTest {
     }
 
     @Test
-    void shouldAbleToComapareTransactionOfUser()
-    {
+    void shouldAbleToComapareTransactionOfUser() throws Exception {
         transactionManager.addTransaction(new Transaction(1, "Travel", 100, LocalDate.of(2024, 02, 11), 1));
         transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
         transactionManager.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
         transactionManager.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
-        userHandler.addUser(new User(1,"Sameer","ashokpawar25052001@gmail.com"));
-        userHandler.addUser(new User(2,"Raju","ashokpawar25052001@gmail.com"));
+        userHandler.addUser(1, "Sameer", "ashokpawar25052001@gmail.com");
+        userHandler.addUser(2, "Raju", "ashokpawar25052001@gmail.com");
 
 
         List<ExtraPayUsers> extraPayUsers = transactionManager.ComparePreviouMonthSpending();
-        Assertions.assertEquals(2,extraPayUsers.size());
+        Assertions.assertEquals(2, extraPayUsers.size());
     }
 
     @Test
-    void sholudAbleToSendMailToUsers()
-    {
+    void sholudAbleToSendMailToUsers() throws Exception {
         transactionManager.addTransaction(new Transaction(1, "Travel", 100, LocalDate.of(2024, 02, 11), 1));
         transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
         transactionManager.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
         transactionManager.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
-        userHandler.addUser(new User(1,"Sameer","ashokpawar25052001@gmail.com"));
-        userHandler.addUser(new User(2,"Raju","ashokpawar.sknscoe.comp@gmail.com"));
+        userHandler.addUser(1, "Sameer", "ashokpawar25052001@gmail.com");
+        userHandler.addUser(2, "Raju", "ashokpawar25052001@gmail.com");
 
 
         List<ExtraPayUsers> extraPayUsers = transactionManager.ComparePreviouMonthSpending();

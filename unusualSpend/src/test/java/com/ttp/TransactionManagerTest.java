@@ -9,60 +9,78 @@ import java.util.List;
 
 public class TransactionManagerTest {
 
-    TransactionManager transactionManager = new TransactionManager();
     TransactionHistory transactionHistory = new TransactionHistory();
+    UserHandler userHandler = new UserHandler();
+    TransactionManager transactionManager = new TransactionManager(transactionHistory,userHandler);
+
 
 
     @Test
     void shouldBeAbleToGetAllTransaction() {
-        List<Transaction> transactions = transactionHistory.getAllTransactions();
+        List<Transaction> transactions = transactionManager.getTransactions();
         Assertions.assertEquals(0, transactions.size());
     }
 
     @Test
     void shouldAbleToAddTransaction() {
-        transactionHistory.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 03, 11), 1));
-        List<Transaction> transactions = transactionHistory.getAllTransactions();
+        transactionManager.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 03, 11), 1));
+        List<Transaction> transactions = transactionManager.getTransactions();
         Assertions.assertEquals(1, transactions.size());
     }
 
     @Test
     void shouldAbleToFilterTransactionByCategory() {
-        transactionHistory.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 03, 11), 1));
-        transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
-        List<Transaction> transactions = transactionHistory.filterTransactionByCatgory("Grocery");
+        transactionManager.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 03, 11), 1));
+        transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
+        List<Transaction> transactions = transactionManager.filterTransactionByCatgory("Grocery");
         Assertions.assertEquals(1, transactions.size());
     }
 
     @Test
     void shouldAbleToFilterTransactionsByCurrentMonth() {
-        transactionHistory.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 02, 11), 1));
-        transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
-        List<Transaction> transactions = transactionHistory.filterTransactionByCurrentMonth();
+        transactionManager.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 02, 11), 1));
+        transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
+        List<Transaction> transactions = transactionManager.filterTransactionByCurrentMonth();
         Assertions.assertEquals(1, transactions.size());
     }
 
     @Test
     void shouldAbleToFilterTransactionByPreviosMonth() {
-        transactionHistory.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 02, 11), 1));
-        transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
-        List<Transaction> transactions = transactionHistory.filterTransactionByPreviousMonth();
+        transactionManager.addTransaction(new Transaction(1, "Grocery", 100, LocalDate.of(2024, 02, 11), 1));
+        transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 2));
+        List<Transaction> transactions = transactionManager.filterTransactionByPreviousMonth();
         Assertions.assertEquals(1, transactions.size());
     }
 
     @Test
     void shouldAbleToComapareTransactionOfUser()
     {
-        transactionHistory.addTransaction(new Transaction(1, "Travel", 100, LocalDate.of(2024, 02, 11), 1));
-        transactionHistory.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
-        transactionHistory.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
-        transactionHistory.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
-        UserHandler userHandler = new UserHandler();
+        transactionManager.addTransaction(new Transaction(1, "Travel", 100, LocalDate.of(2024, 02, 11), 1));
+        transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
+        transactionManager.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
+        transactionManager.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
         userHandler.addUser(new User(1,"Sameer","ashokpawar25052001@gmail.com"));
         userHandler.addUser(new User(2,"Raju","ashokpawar25052001@gmail.com"));
 
 
-        List<ExtraPayUsers> extraPayUsers = transactionHistory.ComparePreviouMonthSpending();
+        List<ExtraPayUsers> extraPayUsers = transactionManager.ComparePreviouMonthSpending();
         Assertions.assertEquals(2,extraPayUsers.size());
     }
+
+    @Test
+    void sholudAbleToSendMailToUsers()
+    {
+        transactionManager.addTransaction(new Transaction(1, "Travel", 100, LocalDate.of(2024, 02, 11), 1));
+        transactionManager.addTransaction(new Transaction(2, "Travel", 200, LocalDate.of(2024, 03, 11), 1));
+        transactionManager.addTransaction(new Transaction(3, "Grocery", 150, LocalDate.of(2024, 02, 11), 1));
+        transactionManager.addTransaction(new Transaction(4, "Grocery", 200, LocalDate.of(2024, 03, 11), 1));
+        userHandler.addUser(new User(1,"Sameer","ashokpawar25052001@gmail.com"));
+        userHandler.addUser(new User(2,"Raju","ashokpawar.sknscoe.comp@gmail.com"));
+
+
+        List<ExtraPayUsers> extraPayUsers = transactionManager.ComparePreviouMonthSpending();
+        boolean reponse = transactionManager.sendEmail(extraPayUsers);
+        Assertions.assertTrue(reponse);
+    }
+
 }

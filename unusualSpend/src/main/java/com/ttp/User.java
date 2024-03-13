@@ -2,9 +2,9 @@ package com.ttp;
 
 import com.ttp.emailValidator.EmailValidator;
 import com.ttp.invalidEmailException.InvalideEmailException;
-import com.ttp.invalideCustomerException.InvalideUserException;
-
-import java.util.regex.Pattern;
+import com.ttp.invalidUserNameException.InvalideUserNameException;
+import com.ttp.invalideUserException.InvalideUserIdException;
+import com.ttp.userNameValidator.UserNameValidator;
 
 public class User {
     int userId;
@@ -21,11 +21,19 @@ public class User {
         this.name = name;
     }
 
-    public static User create(int userId, String name, String email) throws InvalideUserException, InvalideEmailException {
-        if (userId < 0 || userId == 0) throw new InvalideUserException("User Id sholud be positve");
+    public static User create(int userId, String name, String email) throws InvalideUserIdException, InvalideEmailException, InvalideUserNameException {
+        if (!isValidUserId(userId)) throw new InvalideUserIdException("User Id sholud be positve");
         if(!EmailValidator.validateEmail(email)) throw new InvalideEmailException(email);
+        if(!UserNameValidator.validateUserName(name)) throw new InvalideUserNameException(name);
         return new User(userId, name, email);
     }
+
+    private static boolean isValidUserId(int userId)
+    {
+        return userId>0;
+    }
+
+
 
     public int getUserId() {
         return userId;

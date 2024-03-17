@@ -69,12 +69,12 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
 
-    public int getUserId() {
+    public int getCreditCardId() {
         return creditCardId;
     }
 
-    public void setUserId(int userId) {
-        this.creditCardId = userId;
+    public void setCreditCardId(int cardId) {
+        this.creditCardId = cardId;
     }
 
     @Override

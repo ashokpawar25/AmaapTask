@@ -1,5 +1,6 @@
 package com.ttp.userHandler;
 
+import com.ttp.User;
 import com.ttp.UserHandler;
 import com.ttp.invalidEmailException.InvalideEmailException;
 import com.ttp.invalidUserNameException.InvalideUserNameException;
@@ -11,7 +12,9 @@ public class UserHandlerTest
 {
     @Test
     void shouldAbleToAddNewUser() throws InvalideEmailException, InvalideUserNameException, InvalideUserIdException {
-        UserHandler.addUser(1,"Sample User","sampleemail@gmail.com");
-        Assertions.assertEquals(1,UserHandler.users.size());
+        UserHandler userHandler = new UserHandler();
+        User user = User.create(1, "Sample User", "sampleemail@gmail.com");
+        userHandler.addUser(user);
+        Assertions.assertEquals(1,userHandler.users.size());
     }
 }

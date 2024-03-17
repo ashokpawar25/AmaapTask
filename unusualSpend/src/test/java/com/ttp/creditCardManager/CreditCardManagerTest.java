@@ -3,7 +3,9 @@ package com.ttp.creditCardManager;
 import com.ttp.Category.Category;
 import com.ttp.InvalidCardIdException.InvalidCardIdException;
 import com.ttp.Transaction;
+import com.ttp.UnusualSpendUsers;
 import com.ttp.User;
+import com.ttp.UserHandler;
 import com.ttp.creditCard.CreditCard;
 import com.ttp.invalidAmountException.InvalidAmountException;
 import com.ttp.invalidEmailException.InvalideEmailException;
@@ -104,9 +106,9 @@ public class CreditCardManagerTest {
 
         Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
         Transaction transaction2 = Transaction.create(102, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
-        List<Transaction> expectedTransactionList = List.of(transaction1, transaction2);
+        List<Transaction> transactions = List.of(transaction1, transaction2);
 
-        creditCardManager.addTransaction(expectedTransactionList);
+        creditCardManager.addTransaction(transactions);
 
         List<Transaction> currentMonthTransactions = creditCardManager.filterTransactionsByMonth(LocalDate.now().getMonth());
 
@@ -129,10 +131,14 @@ public class CreditCardManagerTest {
         creditCardManager.mapCardToUser(creditCard, user);
 
         Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
-        Transaction transaction2 = Transaction.create(102, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
+        Transaction transaction2 = Transaction.create(102, Category.travel, 150, LocalDate.of(2024, 03, 17), 1);
+
         List<Transaction> transactions = List.of(transaction1, transaction2);
 
         creditCardManager.addTransaction(transactions);
-        
+        List<UnusualSpendUsers> unusualSpendUsers = creditCardManager.getUnusualSpend();
+
+        //Assert
+        Assertions.assertEquals(1, unusualSpendUsers.size());
     }
 }

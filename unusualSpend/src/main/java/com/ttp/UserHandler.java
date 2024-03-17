@@ -10,10 +10,11 @@ import java.util.List;
 public class UserHandler
 {
     User user = new User();
-    public static List<User> users = new ArrayList<>();
-    public static void addUser(int userId, String name, String email) throws InvalideUserIdException, InvalideEmailException, InvalideUserNameException {
-        User user = User.create(userId, name, email);
-        users.add(user);
+    public List<User> users = new ArrayList<>();
+
+    public void addUser(User user)
+    {
+        this.users.add(user);
     }
 
     public User getUserByUserId(int userId1)
@@ -28,5 +29,13 @@ public class UserHandler
             }
         }
         return null;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

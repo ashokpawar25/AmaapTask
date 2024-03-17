@@ -1,6 +1,8 @@
 package com.ttp.creditCardManager;
 
+import com.ttp.Category.Category;
 import com.ttp.Transaction;
+import com.ttp.UnusualAmountAndCategory;
 import com.ttp.UnusualSpendUsers;
 import com.ttp.User;
 import com.ttp.creditCard.CreditCard;
@@ -8,7 +10,9 @@ import com.ttp.creditCard.CreditCard;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CreditCardManager {
@@ -59,5 +63,31 @@ public class CreditCardManager {
         }
 
         return  unusualSpendUsers;
+    }
+
+    public Map<Integer, List<UnusualAmountAndCategory>> mapUnusualSpendForUser(List<UnusualSpendUsers> unusualSpendUsers)
+    {
+        Map<Integer ,List<UnusualAmountAndCategory>> mappingUnusualSpend = new HashMap<>();
+
+        for(UnusualSpendUsers unusualSpendUser:unusualSpendUsers)
+        {
+            int creditCardId = unusualSpendUser.getCreditCardId();
+            Category category = unusualSpendUser.getCategory();
+            int amount = unusualSpendUser.getAmountOfUnusaulSpend();
+
+            if(mappingUnusualSpend.containsKey(creditCardId))
+            {
+                List<UnusualAmountAndCategory> unusualAmountAndCategoriesList = mappingUnusualSpend.get(creditCardId);
+                unusualAmountAndCategoriesList.add(new UnusualAmountAndCategory(amount,category));
+                mappingUnusualSpend.put(creditCardId,unusualAmountAndCategoriesList);
+            }
+            else
+            {
+                List<UnusualAmountAndCategory> unusualAmountAndCategoriesList = new ArrayList<>();
+                unusualAmountAndCategoriesList.add(new UnusualAmountAndCategory(amount,category));
+                mappingUnusualSpend.put(creditCardId,unusualAmountAndCategoriesList);
+            }
+        }
+        return mappingUnusualSpend;
     }
 }

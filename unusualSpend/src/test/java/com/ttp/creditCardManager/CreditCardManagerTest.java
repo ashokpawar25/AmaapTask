@@ -166,4 +166,34 @@ public class CreditCardManagerTest {
         //Assert
         Assertions.assertEquals(1, aggragatedUnusualSpend.size());
     }
+
+    @Test
+    void shouldAbleToSendEmailForUnusalSpendUsers() throws InvalidCardIdException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException {
+        //Arrange
+        CreditCard creditCard = CreditCard.create(1);
+
+        int userID = 1;
+        String userName = "Ashok Pawar";
+        String userEmail = "ashokpawar25052001@gmail.com";
+        User user = User.create(userID, userName, userEmail);
+
+        //Act
+        CreditCardManager creditCardManager = new CreditCardManager();
+        creditCardManager.creditCards.add(creditCard);
+        creditCardManager.mapCardToUser(creditCard, user);
+
+        Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
+        Transaction transaction2 = Transaction.create(102, Category.travel, 150, LocalDate.of(2024, 03, 17), 1);
+
+        List<Transaction> transactions = List.of(transaction1, transaction2);
+
+        creditCardManager.addTransaction(transactions);
+        List<UnusualSpendUsers> unusualSpendUsers = creditCardManager.getUnusualSpend();
+        Map<Integer, List<UnusualAmountAndCategory>> aggragatedUnusualSpend = creditCardManager.mapUnusualSpendForUser(unusualSpendUsers);
+
+        boolean isSend = creditCardManager.sendEmail(aggragatedUnusualSpend);
+
+        //Assert
+        Assertions.assertTrue(isSend);
+    }
 }

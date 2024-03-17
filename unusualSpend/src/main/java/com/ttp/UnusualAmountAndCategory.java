@@ -12,4 +12,12 @@ public class UnusualAmountAndCategory
         this.amount=amount;
         this.category=category;
     }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
 }

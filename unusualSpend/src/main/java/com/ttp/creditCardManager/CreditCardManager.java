@@ -1,12 +1,10 @@
 package com.ttp.creditCardManager;
 
+import com.ttp.*;
 import com.ttp.Category.Category;
-import com.ttp.Transaction;
-import com.ttp.UnusualAmountAndCategory;
-import com.ttp.UnusualSpendUsers;
-import com.ttp.User;
 import com.ttp.creditCard.CreditCard;
 
+import javax.security.auth.login.CredentialException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -89,5 +87,39 @@ public class CreditCardManager {
             }
         }
         return mappingUnusualSpend;
+    }
+
+    public boolean sendEmail(Map<Integer, List<UnusualAmountAndCategory>> aggragatedUnusualSpend)
+    {
+        EmailHandler emailHandler = new EmailHandler();
+        for(Map.Entry<Integer, List<UnusualAmountAndCategory>> entry : aggragatedUnusualSpend.entrySet())
+        {
+            CreditCard creditCard = null;
+            int creditCardId = entry.getKey();
+            for(CreditCard creditCard1:creditCards)
+            {
+                if(creditCard1.getCardId() == creditCardId)
+                {
+                    creditCard = creditCard1;
+                }
+            }
+            String email = creditCard.getUser().getEmail();
+            String name = creditCard.getUser().getName();
+            int totalSpent = 0;
+            List<UnusualAmountAndCategory> list = entry.getValue();
+            String subject = "Regarding unusual spend for current month";
+            StringBuilder body = new StringBuilder(" \n hello "+ name +"!\n We have detected unusually high spending on your card in these categories:\n ");
+            for(UnusualAmountAndCategory amountAndCategory:entry.getValue())
+            {
+                body.append(" * You spent ₹"+ amountAndCategory.getAmount() +" on "+ amountAndCategory.getCategory()+"\n");
+                totalSpent += amountAndCategory.getAmount();
+            }
+            body.append("Thanks,\n" +
+                    "\n" +
+                    "The Credit Card Company\n");
+            body.insert(0,"Unusual spending of "+ totalSpent +"detected!");
+            emailHandler.sendEmail(subject,body.toString(),email);
+        }
+        return true;
     }
 }

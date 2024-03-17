@@ -111,13 +111,13 @@ public class CreditCardManager {
             StringBuilder body = new StringBuilder(" \n hello "+ name +"!\n We have detected unusually high spending on your card in these categories:\n ");
             for(UnusualAmountAndCategory amountAndCategory:entry.getValue())
             {
-                body.append(" * You spent ₹"+ amountAndCategory.getAmount() +" on "+ amountAndCategory.getCategory()+"\n");
+                body.append(" * You spent "+ amountAndCategory.getAmount() +" on "+ amountAndCategory.getCategory()+"\n");
                 totalSpent += amountAndCategory.getAmount();
             }
             body.append("Thanks,\n" +
                     "\n" +
                     "The Credit Card Company\n");
-            body.insert(0,"Unusual spending of "+ totalSpent +"detected!");
+            body.insert(0,"Unusual spending of "+ totalSpent +" detected!");
             emailHandler.sendEmail(subject,body.toString(),email);
         }
         return true;

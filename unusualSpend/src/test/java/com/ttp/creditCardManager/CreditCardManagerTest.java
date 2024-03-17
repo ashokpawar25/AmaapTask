@@ -77,7 +77,7 @@ public class CreditCardManagerTest {
         creditCardManager.mapCardToUser(creditCard, user);
 
         Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
-        Transaction transaction2 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
+        Transaction transaction2 = Transaction.create(102, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
         List<Transaction> expectedTransactionList = List.of(transaction1, transaction2);
 
         creditCardManager.addTransaction(expectedTransactionList);
@@ -88,4 +88,51 @@ public class CreditCardManagerTest {
         Assertions.assertEquals(2, transactions.size());
     }
 
+    @Test
+    void shouldAbleToFilterTransactionsByMonth() throws InvalidCardIdException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException {
+        //Arrange
+        CreditCard creditCard = CreditCard.create(1);
+
+        int userID = 1;
+        String userName = "Ashok Pawar";
+        String userEmail = "ashokpawar25052001@gmail.com";
+        User user = User.create(userID, userName, userEmail);
+
+        //Act
+        CreditCardManager creditCardManager = new CreditCardManager();
+        creditCardManager.mapCardToUser(creditCard, user);
+
+        Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
+        Transaction transaction2 = Transaction.create(102, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
+        List<Transaction> expectedTransactionList = List.of(transaction1, transaction2);
+
+        creditCardManager.addTransaction(expectedTransactionList);
+
+        List<Transaction> currentMonthTransactions = creditCardManager.filterTransactionsByMonth(LocalDate.now().getMonth());
+
+        //Assert
+        Assertions.assertEquals(transaction2, currentMonthTransactions.get(0));
+    }
+
+    @Test
+    void shouldAbleFindTheUnusualSpendForCustomers() throws InvalidCardIdException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException {
+        //Arrange
+        CreditCard creditCard = CreditCard.create(1);
+
+        int userID = 1;
+        String userName = "Ashok Pawar";
+        String userEmail = "ashokpawar25052001@gmail.com";
+        User user = User.create(userID, userName, userEmail);
+
+        //Act
+        CreditCardManager creditCardManager = new CreditCardManager();
+        creditCardManager.mapCardToUser(creditCard, user);
+
+        Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
+        Transaction transaction2 = Transaction.create(102, Category.travel, 100, LocalDate.of(2024, 03, 17), 1);
+        List<Transaction> transactions = List.of(transaction1, transaction2);
+
+        creditCardManager.addTransaction(transactions);
+        
+    }
 }

@@ -1,26 +1,28 @@
 package com.ttp;
 
+import jdk.jfr.Category;
+
 import java.time.LocalDate;
 
 public class Transaction {
 
     int transactionID;
-    String category;
+    Category category;
     int amount;
     LocalDate transactionDate;
-    int userId;
+    int creditCardId;
 
     public Transaction()
     {
 
     }
 
-    public Transaction(int transactionID, String category, int amount, LocalDate transactionDate, int userId) {
+    public Transaction(int transactionID, Category category, int amount, LocalDate transactionDate, int creditCardId) {
         this.transactionID = transactionID;
         this.category = category;
         this.amount = amount;
         this.transactionDate = transactionDate;
-        this.userId = userId;
+        this.creditCardId = creditCardId;
     }
 
     public int getTransactionID() {
@@ -31,11 +33,11 @@ public class Transaction {
         this.transactionID = transactionID;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -56,10 +58,10 @@ public class Transaction {
     }
 
     public int getUserId() {
-        return userId;
+        return creditCardId;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.creditCardId = userId;
     }
 }

@@ -4,8 +4,10 @@ import com.ttp.Transaction;
 import com.ttp.User;
 import com.ttp.creditCard.CreditCard;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreditCardManager {
 
@@ -28,5 +30,10 @@ public class CreditCardManager {
     public List<Transaction> getTransactions()
     {
         return this.transactions;
+    }
+
+    public List<Transaction> filterTransactionsByMonth(Month month)
+    {
+        return transactions.stream().filter(x -> x.getTransactionDate().getMonth().equals(month)).collect(Collectors.toList());
     }
 }

@@ -1,10 +1,10 @@
 package com.ttp.userHandler;
 
-import com.ttp.User;
-import com.ttp.UserHandler;
-import com.ttp.invalidEmailException.InvalideEmailException;
-import com.ttp.invalidUserNameException.InvalideUserNameException;
-import com.ttp.invalideUserException.InvalideUserIdException;
+import com.ttp.domain.User;
+import com.ttp.handler.UserHandler;
+import com.ttp.domain.exceptions.user.InvalideEmailException;
+import com.ttp.domain.exceptions.user.InvalideUserNameException;
+import com.ttp.domain.exceptions.user.InvalideUserIdException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

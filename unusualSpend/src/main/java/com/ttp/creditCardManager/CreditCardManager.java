@@ -1,9 +1,12 @@
 package com.ttp.creditCardManager;
 
-import com.ttp.*;
-import com.ttp.Category.Category;
-import com.ttp.creditCard.CreditCard;
-import com.ttp.userrecord.UserRecord;
+import com.ttp.domain.Category;
+import com.ttp.domain.CreditCard;
+import com.ttp.domain.Transaction;
+import com.ttp.domain.User;
+import com.ttp.dto.AmountAndCategory;
+import com.ttp.handler.EmailHandler;
+import com.ttp.dto.UserRecord;
 
 import java.time.LocalDate;
 import java.time.Month;

@@ -1,16 +1,17 @@
 package com.ttp.creditCardManager;
 
-import com.ttp.*;
-import com.ttp.Category.Category;
-import com.ttp.InvalidCardIdException.InvalidCardIdException;
-import com.ttp.creditCard.CreditCard;
-import com.ttp.invalidAmountException.InvalidAmountException;
-import com.ttp.invalidEmailException.InvalideEmailException;
-import com.ttp.invalidUserNameException.InvalideUserNameException;
-import com.ttp.invalideCategoryException.InvalideCategoryException;
-import com.ttp.invalideTransactionIdException.InvalideTransactionIdException;
-import com.ttp.invalideUserException.InvalideUserIdException;
-import com.ttp.userrecord.UserRecord;
+import com.ttp.domain.Category;
+import com.ttp.domain.Transaction;
+import com.ttp.domain.exceptions.transaction.InvalidCardIdException;
+import com.ttp.domain.CreditCard;
+import com.ttp.domain.User;
+import com.ttp.domain.exceptions.transaction.InvalidAmountException;
+import com.ttp.domain.exceptions.user.InvalideEmailException;
+import com.ttp.domain.exceptions.user.InvalideUserNameException;
+import com.ttp.domain.exceptions.transaction.InvalideCategoryException;
+import com.ttp.domain.exceptions.transaction.InvalideTransactionIdException;
+import com.ttp.domain.exceptions.user.InvalideUserIdException;
+import com.ttp.dto.UserRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -169,6 +170,7 @@ public class CreditCardManagerTest {
         List<Transaction> transactions = List.of(transaction1, transaction2,transaction3,transaction4);
 
         creditCardManager.addTransaction(transactions);
+        int thresholdPercentage = 30;
         Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord(thresholdPercentage);
         boolean isSend = creditCardManager.sendEmail(userRecord);
 

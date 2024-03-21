@@ -5,7 +5,6 @@ import com.ttp.Category.Category;
 import com.ttp.creditCard.CreditCard;
 import com.ttp.userrecord.UserRecord;
 
-import javax.security.auth.login.CredentialException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -90,8 +89,9 @@ public class CreditCardManager {
         return true;
     }
 
-    public Map<Integer, UserRecord> getUserRecord()
+    public Map<Integer, UserRecord> getUserRecord(int thresholdPercentage)
     {
+        double criteria = 1 + (thresholdPercentage/100);
         Map<Integer ,UserRecord> userRecords = new HashMap<>();
 
         List<Transaction> currentMonthTransactions = this.filterTransactionsByMonth(LocalDate.now().getMonth());
@@ -108,7 +108,7 @@ public class CreditCardManager {
                         List<AmountAndCategory> usualSpendRecord = userRecordList.getUsualSpendList();
                         List<AmountAndCategory> unusualSpendRecord = userRecordList.getUnUsualSpendList();
                         int transactionID = currentTransaction.getCreditCardId();
-                        if (currentTransaction.getAmount() >= (previousTransaction.getAmount()*1.5))
+                        if (currentTransaction.getAmount() >= (previousTransaction.getAmount()*criteria))
                         {
                             Category category = currentTransaction.getCategory();
                             int amount = currentTransaction.getAmount()-previousTransaction.getAmount();
@@ -129,7 +129,7 @@ public class CreditCardManager {
                         UserRecord userRecordList = new UserRecord(usualSpendRecord,unusualSpendRecord);
                         int creditCardId = currentTransaction.getCreditCardId();
 
-                        if (currentTransaction.getAmount() >= (previousTransaction.getAmount()*1.5))
+                        if (currentTransaction.getAmount() >= (previousTransaction.getAmount()*criteria))
                         {
                             Category category = currentTransaction.getCategory();
                             int amount = currentTransaction.getAmount()-previousTransaction.getAmount();

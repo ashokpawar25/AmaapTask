@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -138,7 +136,8 @@ public class CreditCardManagerTest {
         List<Transaction> transactions = List.of(transaction1, transaction2,transaction3,transaction4);
 
         creditCardManager.addTransaction(transactions);
-        Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord();
+        int thresholdPercentage = 30;
+        Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord(thresholdPercentage);
 
         //assert
         Assertions.assertEquals(1,userRecord.size());
@@ -170,7 +169,7 @@ public class CreditCardManagerTest {
         List<Transaction> transactions = List.of(transaction1, transaction2,transaction3,transaction4);
 
         creditCardManager.addTransaction(transactions);
-        Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord();
+        Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord(thresholdPercentage);
         boolean isSend = creditCardManager.sendEmail(userRecord);
 
         //Assert

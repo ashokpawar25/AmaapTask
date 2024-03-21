@@ -10,6 +10,7 @@ import com.ttp.invalidUserNameException.InvalideUserNameException;
 import com.ttp.invalideCategoryException.InvalideCategoryException;
 import com.ttp.invalideTransactionIdException.InvalideTransactionIdException;
 import com.ttp.invalideUserException.InvalideUserIdException;
+import com.ttp.userrecord.UserRecord;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -115,7 +116,7 @@ public class CreditCardManagerTest {
     }
 
     @Test
-    void shouldAbleFindTheUnusualSpendForCustomers() throws InvalidCardIdException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException {
+    void shouldAbleToFindRecordOfUserSpend() throws InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalidCardIdException {
         //Arrange
         CreditCard creditCard = CreditCard.create(1);
 
@@ -126,45 +127,24 @@ public class CreditCardManagerTest {
 
         //Act
         CreditCardManager creditCardManager = new CreditCardManager();
+        creditCardManager.creditCards.add(creditCard);
         creditCardManager.mapCardToUser(creditCard, user);
 
         Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
         Transaction transaction2 = Transaction.create(102, Category.travel, 150, LocalDate.of(2024, 03, 17), 1);
+        Transaction transaction3 = Transaction.create(103, Category.groceries, 100, LocalDate.of(2024, 02, 17), 1);
+        Transaction transaction4 = Transaction.create(104, Category.groceries, 120, LocalDate.of(2024, 03, 17), 1);
 
-        List<Transaction> transactions = List.of(transaction1, transaction2);
-
-        creditCardManager.addTransaction(transactions);
-        List<UnusualSpendUsers> unusualSpendUsers = creditCardManager.getUnusualSpend();
-
-        //Assert
-        Assertions.assertEquals(1, unusualSpendUsers.size());
-    }
-
-    @Test
-    void shouldAbleToCombineUnusualSpendsForSingleUser() throws InvalidCardIdException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException {
-        //Arrange
-        CreditCard creditCard = CreditCard.create(1);
-
-        int userID = 1;
-        String userName = "Ashok Pawar";
-        String userEmail = "ashokpawar25052001@gmail.com";
-        User user = User.create(userID, userName, userEmail);
-
-        //Act
-        CreditCardManager creditCardManager = new CreditCardManager();
-        creditCardManager.mapCardToUser(creditCard, user);
-
-        Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
-        Transaction transaction2 = Transaction.create(102, Category.travel, 150, LocalDate.of(2024, 03, 17), 1);
-
-        List<Transaction> transactions = List.of(transaction1, transaction2);
+        List<Transaction> transactions = List.of(transaction1, transaction2,transaction3,transaction4);
 
         creditCardManager.addTransaction(transactions);
-        List<UnusualSpendUsers> unusualSpendUsers = creditCardManager.getUnusualSpend();
-        Map<Integer, List<UnusualAmountAndCategory>> aggragatedUnusualSpend = creditCardManager.mapUnusualSpendForUser(unusualSpendUsers);
+        Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord();
 
-        //Assert
-        Assertions.assertEquals(1, aggragatedUnusualSpend.size());
+        //assert
+        Assertions.assertEquals(1,userRecord.size());
+        Assertions.assertEquals(1,userRecord.get(1).getUnUsualSpendList().size());
+        Assertions.assertEquals(1,userRecord.get(1).getUsualSpendList().size());
+
     }
 
     @Test
@@ -184,46 +164,14 @@ public class CreditCardManagerTest {
 
         Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
         Transaction transaction2 = Transaction.create(102, Category.travel, 150, LocalDate.of(2024, 03, 17), 1);
-
-        List<Transaction> transactions = List.of(transaction1, transaction2);
-
-        creditCardManager.addTransaction(transactions);
-        List<UnusualSpendUsers> unusualSpendUsers = creditCardManager.getUnusualSpend();
-        Map<Integer, List<UnusualAmountAndCategory>> aggragatedUnusualSpend = creditCardManager.mapUnusualSpendForUser(unusualSpendUsers);
-
-        boolean isSend = creditCardManager.sendEmail(aggragatedUnusualSpend);
-
-        //Assert
-        Assertions.assertTrue(isSend);
-    }
-
-    @Test
-    void shouldAbleToSendEmailForUnusualSpendUsersForMoreCategories() throws InvalidCardIdException, InvalideEmailException, InvalideUserNameException, InvalideUserIdException, InvalideTransactionIdException, InvalideCategoryException, InvalidAmountException {
-        //Arrange
-        CreditCard creditCard = CreditCard.create(1);
-
-        int userID = 1;
-        String userName = "Ashok Pawar";
-        String userEmail = "ashokpawar25052001@gmail.com";
-        User user = User.create(userID, userName, userEmail);
-
-        //Act
-        CreditCardManager creditCardManager = new CreditCardManager();
-        creditCardManager.creditCards.add(creditCard);
-        creditCardManager.mapCardToUser(creditCard, user);
-
-        Transaction transaction1 = Transaction.create(101, Category.travel, 100, LocalDate.of(2024, 02, 17), 1);
-        Transaction transaction2 = Transaction.create(102, Category.travel, 150, LocalDate.of(2024, 03, 17), 1);
-        Transaction transaction3 = Transaction.create(103, Category.groceries, 300, LocalDate.of(2024, 02, 17), 1);
-        Transaction transaction4 = Transaction.create(104, Category.groceries, 750, LocalDate.of(2024, 03, 17), 1);
+        Transaction transaction3 = Transaction.create(103, Category.groceries, 100, LocalDate.of(2024, 02, 17), 1);
+        Transaction transaction4 = Transaction.create(104, Category.groceries, 120, LocalDate.of(2024, 03, 17), 1);
 
         List<Transaction> transactions = List.of(transaction1, transaction2,transaction3,transaction4);
 
         creditCardManager.addTransaction(transactions);
-        List<UnusualSpendUsers> unusualSpendUsers = creditCardManager.getUnusualSpend();
-        Map<Integer, List<UnusualAmountAndCategory>> aggragatedUnusualSpend = creditCardManager.mapUnusualSpendForUser(unusualSpendUsers);
-
-        boolean isSend = creditCardManager.sendEmail(aggragatedUnusualSpend);
+        Map<Integer , UserRecord> userRecord = creditCardManager.getUserRecord();
+        boolean isSend = creditCardManager.sendEmail(userRecord);
 
         //Assert
         Assertions.assertTrue(isSend);

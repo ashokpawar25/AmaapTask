@@ -1,32 +1,12 @@
-Date = 14/03/2024
-Use joda date time
-
-Date = 13/03/2024
-Add custom exceptions 
-extend user defined exceptions
-use smart constructor
-pass parameter to custom exception
-string.format("%d"id);  ---> String interpullation
-Commit for small small changes
-regex( Regular expressions)
-ctr + G for finding/searching with arrow
-static import
+Date = 06/03/2024
 
 
-
-Date = 08/03/2024
--Task:
-Why functional programming is good than the object oriented programming
-less adoption
-
--Problems in prcedural programming:
-1.code reusability
-2.Encapsulation
-3.No relationship i.e. bus is vehicle  ---> solved by using interface
 
 Date = 05/03/2024
 Did connection private for security purpose
 returned resultset instead of empty list
+
+
 
 Date = 04/03/2024
 
